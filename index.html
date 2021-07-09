@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wimok - Section 2 - Question 1</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        .container {
+            display: flex;
+            min-width: 600px;
+            overflow: scroll;
+            margin: 10px;
+        }
+        .col {
+            border: 1px solid black;
+            height: calc(100vh - 40px);
+        }
+        .col-left {
+            width: 200px;
+        }
+        .col-mid {
+            width: 100%;
+            min-width: 100px;
+        }
+        .col-right {
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="col col-left">
+            <input id="inputNum" type="number" onchange="onNumChange(this.value)" />
+        </div>
+        <div class="col col-mid">
+            <select id="calcDropdown" onchange="calculate()">
+                <option value="isPrime" selected>isPrime</option>
+                <option value="isFibonacci">isFibonacci</option>
+            </select>
+        </div>
+        <div class="col col-right">
+            <div id="resulText"></div>
+        </div>
+    </div>
+    <script>
+        const inputNum = document.getElementById("inputNum");
+        const calcDropdown = document.getElementById("calcDropdown");
+        const resulText = document.getElementById("resulText");
+        function isSquare(num) {
+            return num > 0 && Math.sqrt(num) % 1 === 0;
+        }
+        function isFibonacci(num) {
+            return (isSquare(5*(num*num)-4) || isSquare(5*(num*num)+4));
+        }
+        function isPrime(num) {
+            for(let i = 2; i < num; i++) {
+                if(num % i === 0) {
+                    return false;
+                }
+            }
+            return num > 1;
+        }
+        function calculate() {
+            const num = inputNum.value;
+            const calc = calcDropdown.value;
+            if(calc === 'isPrime') {
+                resulText.innerText = isPrime(num)
+            } else {
+                resulText.innerText = isFibonacci(num)
+            }
+        }
+        function onNumChange (val) {
+            let num = +val;
+            if(!Number.isInteger(num)) {
+                num = Math.round(num);
+            }
+            if(num < 0) {
+                num = 1;
+            }
+            inputNum.value = num;
+            calculate()
+        }
+    </script>
+</body>
+</html>
